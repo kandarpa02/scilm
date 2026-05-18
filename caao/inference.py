@@ -1,5 +1,5 @@
 from .setup_prompt import seed
-from lm import *
+from .lm import *
 
 messages = [
     {
