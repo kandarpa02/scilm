@@ -3,86 +3,24 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "Cognitive Architecture for Autonomous Operations"
+name = "caao"
 version = "0.0.1"
-description = "A local AI companion assistant powered by HuggingFace Transformers."
+description = "A local AI companion assistant."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
 
 authors = [
     { name = "Kandarpa" }
-]
-
-keywords = [
-    "ai",
-    "llm",
-    "assistant",
-    "transformers",
-    "huggingface",
-    "chatbot",
-    "jarvis"
-]
-
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
 ]
 
 dependencies = [
     "torch",
     "transformers",
     "accelerate",
-    "sentencepiece",
-    "protobuf",
-    "safetensors",
-    "huggingface_hub",
-
     "numpy",
-    "scipy",
-
     "requests",
-
-    "fastapi",
-    "uvicorn",
-
-    "pydantic",
-
-    "python-dotenv",
-
-    "rich",
-
-    "psutil"
+    "rich"
 ]
-
-[project.optional-dependencies]
-
-dev = [
-    "black",
-    "ruff",
-    "pytest"
-]
-
-cuda = [
-    "xformers",
-    "bitsandbytes"
-]
-
-[project.urls]
-Homepage = "https://github.com/kandarpa02/ProjectCAAO"
-Repository = "https://github.com/kandarpa02/ProjectCAAO"
-
-[tool.setuptools]
-include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["."]
 include = ["caao*"]
-
-[tool.black]
-line-length = 88
-
-[tool.ruff]
-line-length = 88

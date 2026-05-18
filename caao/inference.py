@@ -8,8 +8,12 @@ messages = [
     }
 ]
 
+model, tokenizer = None, None
+
 model_name = "Qwen/Qwen2.5-3B-Instruct"
-model, tokenizer = init_model(model_name=model_name)
+
+if model or tokenizer is None:
+    model, tokenizer = init_model(model_name=model_name)
 
 def generate_text():
     global messages, model, tokenizer
