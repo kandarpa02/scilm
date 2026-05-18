@@ -1,1 +1,1 @@
-# ProjectKairo
+# Cognitive Architecture for Autonomous Operations
