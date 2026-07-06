@@ -1,34 +1,67 @@
 from .setup_prompt import instructions
 from .lm import *
 
+# Conversation history
 messages = [
     {
         "role": "system",
-        "content": instructions
+        "content": instructions,
     }
 ]
 
-model, tokenizer = None, None
+model = None
+tokenizer = None
 
 model_name = "microsoft/Phi-4-mini-reasoning"
 
-if model or tokenizer is None:
+# Load model once
+if model is None or tokenizer is None:
     model, tokenizer = init_model(model_name=model_name)
 
-def generate_response(prompt, temperature=0.1, max_new_tokens=2048):
-    global model, tokenizer
-    messages.append({"role": "user", "content": prompt})
-    input_text = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
-    outputs = model.generate(
-        **inputs,
-        temperature=temperature,
-        max_new_tokens=max_new_tokens,
-        do_sample=True,
-        pad_token_id=tokenizer.eos_token_id
-    )
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    response = response.split("assistant:")[-1].strip()
-    messages.append({"role": "assistant", "content": response})
-    return response
 
+def generate_response(prompt, temperature=0.0, max_new_tokens=512):
+    global model, tokenizer, messages
+
+    # Add the user's message
+    messages.append(
+        {
+            "role": "user",
+            "content": prompt,
+        }
+    )
+
+    # Format using the model's official chat template
+    inputs = tokenizer.apply_chat_template(
+        messages,
+        tokenize=True,
+        add_generation_prompt=True,
+        return_tensors="pt",
+    ).to(model.device)
+
+    # Generate
+    outputs = model.generate(
+        inputs,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        do_sample=(temperature > 0),
+        pad_token_id=tokenizer.eos_token_id,
+        eos_token_id=tokenizer.eos_token_id,
+    )
+
+    # Decode only the newly generated tokens
+    generated_tokens = outputs[0][inputs.shape[-1]:]
+
+    response = tokenizer.decode(
+        generated_tokens,
+        skip_special_tokens=True,
+    ).strip()
+
+    # Save assistant response
+    messages.append(
+        {
+            "role": "assistant",
+            "content": response,
+        }
+    )
+
+    return response
