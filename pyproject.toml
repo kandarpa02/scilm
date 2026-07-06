@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "caao"
+name = "sci_lm"
 version = "0.0.1"
 description = "A local AI companion assistant."
 readme = "README.md"
@@ -23,4 +23,4 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["caao*"]
+include = ["sci_lm*"]
