@@ -10,11 +10,6 @@ messages = [
     }
 ]
 
-model = None
-tokenizer = None
-
-model_name = "microsoft/Phi-4-mini-reasoning"
-
 # Load model once
 if model is None or tokenizer is None:
     model, tokenizer = init_model(model_name)
