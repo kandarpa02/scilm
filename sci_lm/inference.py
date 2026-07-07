@@ -2,19 +2,6 @@ from .setup_prompt import instructions
 from .lm import *
 import torch
 
-# Conversation history
-messages = [
-    {
-        "role": "system",
-        "content": instructions,
-    }
-]
-
-# Load model once
-if model is None or tokenizer is None:
-    model, tokenizer = init_model(model_name)
-
-
 def model_setup(model_name):
     model, tokenizer = init_model(model_name)
     def generate_response(instructions, prompt, temperature=0.0, max_new_tokens=512):
